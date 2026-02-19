@@ -44,27 +44,27 @@ const App: React.FC = () => {
 
   const renderProgress = () => {
     const steps: { key: Step; label: string }[] = [
-      { key: 'setup', label: 'Start' },
-      { key: 'people', label: 'People' },
-      { key: 'items', label: 'Items' },
-      { key: 'summary', label: 'Split' },
+      { key: 'setup', label: 'START' },
+      { key: 'people', label: 'PEOPLE' },
+      { key: 'items', label: 'ITEMS' },
+      { key: 'summary', label: 'SPLIT' },
     ];
 
     return (
-      <div className="flex items-center justify-between mb-8 max-w-lg mx-auto px-4">
+      <div className="flex items-center justify-between mb-12 max-w-lg mx-auto px-4">
         {steps.map((s, idx) => {
           const isActive = step === s.key;
           const isDone = steps.findIndex(x => x.key === step) > idx;
           return (
             <React.Fragment key={s.key}>
-              <div className="flex flex-col items-center">
-                <div className={`w-6 h-6 border flex items-center justify-center text-[10px] font-bold transition-colors duration-200 ${isActive ? 'bg-zinc-900 text-white border-zinc-900' : isDone ? 'bg-zinc-800 text-white border-zinc-800' : 'bg-white text-zinc-300 border-zinc-200'}`}>
-                  {isDone ? <CheckCircle2 size={12} /> : idx + 1}
+              <div className="flex flex-col items-center relative">
+                <div className={`w-8 h-8 border flex items-center justify-center text-[11px] font-black transition-colors duration-200 ${isActive ? 'bg-zinc-900 text-white border-zinc-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.1)]' : isDone ? 'bg-zinc-800 text-white border-zinc-800' : 'bg-white text-zinc-400 border-zinc-200'}`}>
+                  {isDone ? <CheckCircle2 size={16} /> : idx + 1}
                 </div>
-                <span className={`text-[10px] mt-2 font-bold uppercase tracking-widest ${isActive ? 'text-zinc-900' : 'text-zinc-400'}`}>{s.label}</span>
+                <span className={`text-[10px] absolute -bottom-6 font-black tracking-[0.15em] whitespace-nowrap ${isActive ? 'text-zinc-900' : 'text-zinc-400'}`}>{s.label}</span>
               </div>
               {idx < steps.length - 1 && (
-                <div className={`h-[1px] flex-1 mx-2 transition-colors duration-200 ${isDone ? 'bg-zinc-800' : 'bg-zinc-100'}`} />
+                <div className={`h-[1px] flex-1 mx-2 transition-colors duration-200 ${isDone ? 'bg-zinc-800' : 'bg-zinc-200'}`} />
               )}
             </React.Fragment>
           );
@@ -76,44 +76,44 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-zinc-50 pb-20">
       <header className="bg-white border-b border-zinc-200 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Calculator className="text-zinc-900" size={18} />
-            <h1 className="font-bold text-zinc-900 text-sm tracking-tight uppercase">BILL SPLITTER</h1>
+            <h1 className="font-bold text-zinc-900 text-xs tracking-[0.1em] uppercase">BILL SPLITTER</h1>
           </div>
-          <div className="text-[11px] text-zinc-400 font-bold uppercase tracking-widest truncate max-w-[150px]">
+          <div className="text-[10px] text-zinc-400 font-black uppercase tracking-widest truncate max-w-[200px]">
             {splitName}
           </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto mt-12 px-6">
+      <main className="max-w-6xl mx-auto mt-12 px-6">
         {renderProgress()}
 
-        <div className="bg-white border border-zinc-200 p-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.05)] min-h-[400px]">
+        <div className="bg-white border border-zinc-200 p-8 sm:p-12 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.05)] min-h-[500px] mt-16">
           {step === 'setup' && (
-            <div className="max-w-md mx-auto space-y-8 py-4">
+            <div className="max-w-md mx-auto space-y-10 py-4">
               <div className="text-center">
-                <h2 className="text-xl font-bold text-zinc-900 mb-1 uppercase tracking-tight">NEW SPLIT</h2>
-                <p className="text-sm text-zinc-500">Configure your group expense baseline.</p>
+                <h2 className="text-xl font-black text-zinc-900 mb-1 uppercase tracking-tighter">NEW SPLIT</h2>
+                <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">Configure your group expense baseline.</p>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <label className="block">
-                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1 block">Split Name</span>
+                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2 block">Split Name</span>
                   <input
                     type="text"
                     value={splitName}
                     onChange={(e) => setSplitName(e.target.value)}
                     placeholder="e.g. TEAM LUNCH"
-                    className="block w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-none focus:outline-none focus:border-zinc-900 transition-all font-medium text-sm"
+                    className="block w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-none focus:outline-none focus:border-zinc-900 transition-all font-bold text-sm tracking-tight"
                   />
                 </label>
                 <label className="block">
-                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1 block">Currency</span>
+                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2 block">Currency</span>
                   <select
                     value={currency.code}
                     onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value) || CURRENCIES[0])}
-                    className="block w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-none focus:outline-none focus:border-zinc-900 transition-all font-medium text-sm appearance-none"
+                    className="block w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-none focus:outline-none focus:border-zinc-900 transition-all font-bold text-sm appearance-none"
                   >
                     {CURRENCIES.map(c => (
                       <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>
@@ -122,7 +122,7 @@ const App: React.FC = () => {
                 </label>
                 <button
                   onClick={handleNext}
-                  className="w-full bg-zinc-900 hover:bg-black text-white font-bold py-4 px-6 rounded-none flex items-center justify-center gap-2 transition-all uppercase tracking-[0.2em] text-xs"
+                  className="w-full bg-zinc-900 hover:bg-black text-white font-black py-5 px-6 rounded-none flex items-center justify-center gap-3 transition-all uppercase tracking-[0.25em] text-xs shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]"
                 >
                   NEXT <ArrowRight size={16} />
                 </button>
